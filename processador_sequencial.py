@@ -15,13 +15,11 @@ def processar_imagens_sequencial(diretorio_origem, diretorio_destino, xlsx_arqui
     if not os.path.exists(diretorio_destino):
         os.makedirs(diretorio_destino)
 
-    # Criar ou abrir arquivo XLSX
     if os.path.exists(xlsx_arquivo):
         planilha = load_workbook(xlsx_arquivo)
     else:
         planilha = Workbook()
 
-    # Selecionar ou criar aba para execução sequencial
     if "Execução Sequencial" in planilha.sheetnames:
         aba_sequencial = planilha["Execução Sequencial"]
     else:
@@ -42,11 +40,9 @@ def processar_imagens_sequencial(diretorio_origem, diretorio_destino, xlsx_arqui
     fim = time.time()
     tempo_execucao = fim - inicio
 
-    # Adicionar dados à aba de execução sequencial
     aba_sequencial.append(["Tempo total de execução (sequencial)", f"{tempo_execucao:.2f} segundos"])
 
     planilha.save(xlsx_arquivo)
     print(f"Tempo total de execução (sequencial): {tempo_execucao:.2f} segundos")
 
-# Executar o processamento sequencial e salvar dados
 processar_imagens_sequencial('imagens_originais', 'imagens_processadas_sequencial', 'resultados.xlsx')

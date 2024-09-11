@@ -26,13 +26,11 @@ def processar_imagens_concorrente(diretorio_origem, diretorio_destino, num_threa
     if not os.path.exists(diretorio_destino):
         os.makedirs(diretorio_destino)
 
-    # Criar ou abrir arquivo XLSX
     if os.path.exists(xlsx_arquivo):
         planilha = load_workbook(xlsx_arquivo)
     else:
         planilha = Workbook()
 
-    # Nome mais curto para a aba
     aba_nome = f"Concorrente ({num_threads})"
     if aba_nome in planilha.sheetnames:
         aba_concorrente = planilha[aba_nome]
@@ -49,12 +47,10 @@ def processar_imagens_concorrente(diretorio_origem, diretorio_destino, num_threa
     fim = time.time()
     tempo_execucao = fim - inicio
 
-    # Adicionar dados à aba de execução concorrente
     aba_concorrente.append([f"Tempo total de execução (concorrente, {num_threads} threads)", f"{tempo_execucao:.2f} segundos"])
 
     planilha.save(xlsx_arquivo)
     print(f"Tempo total de execução (concorrente, {num_threads} threads): {tempo_execucao:.2f} segundos")
 
-# Executar o processamento concorrente e salvar dados para cada quantidade de threads
 for threads in [2, 4, 8]:
     processar_imagens_concorrente('imagens_originais', f'imagens_processadas_concorrente_{threads}', threads, 'resultados.xlsx')
